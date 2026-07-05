@@ -1,4 +1,5 @@
 import { App, TFile } from 'obsidian';
+import dayjs from 'dayjs';
 import { HolidayManager } from './HolidayManager';
 
 export interface DailyNoteSettings {
@@ -51,7 +52,7 @@ export class DailyNoteManager {
 	}
 
 	filePath(date: Date): string {
-		const fileName = window.moment(date).format(this.settings.dailyNoteFormat);
+		const fileName = dayjs(date).format(this.settings.dailyNoteFormat);
 		const folder = this.settings.dailyNoteFolder;
 		return folder ? `${folder}/${fileName}.md` : `${fileName}.md`;
 	}
@@ -82,7 +83,7 @@ export class DailyNoteManager {
 		holiday: string | null,
 		rokuyo: string | null
 	): string {
-		const m = window.moment(date);
+		const m = dayjs(date);
 		return tmpl
 			.replace(/{{date}}/g, m.format(this.settings.dailyNoteFormat))
 			.replace(/{{date:YYYY}}/g, m.format('YYYY'))

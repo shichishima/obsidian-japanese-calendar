@@ -1,21 +1,23 @@
-import { ItemView, WorkspaceLeaf, moment, setIcon } from 'obsidian';
+import { ItemView, WorkspaceLeaf, setIcon } from 'obsidian';
+import dayjs, { Dayjs } from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { HolidayManager } from './HolidayManager';
 import { DailyNoteManager } from './DailyNoteManager';
 import { toWareki, getDayLabel } from './utils';
 import type JapaneseCalendarPlugin from './main';
 
-type Moment = ReturnType<typeof moment>;
+dayjs.extend(isSameOrBefore);
 
 export const VIEW_TYPE = 'japanese-calendar';
 
 export class CalendarView extends ItemView {
-	private current: Moment;
+	private current: Dayjs;
 	private holidays: HolidayManager;
 	private notes: DailyNoteManager;
 
 	constructor(leaf: WorkspaceLeaf, private plugin: JapaneseCalendarPlugin) {
 		super(leaf);
-		this.current = moment();
+		this.current = dayjs();
 		this.holidays = new HolidayManager();
 		this.notes = new DailyNoteManager(this.app, this.plugin.settings);
 	}
@@ -60,15 +62,15 @@ export class CalendarView extends ItemView {
 
 		const nav = header.createDiv({ cls: 'jhc-nav' });
 		nav.createEl('button', { text: '‹' }).onclick = () => {
-			this.current.subtract(1, 'month');
+			this.current = this.current.subtract(1, 'month');
 			this.render();
 		};
 		nav.createEl('button', { text: '今日', cls: 'jhc-today-btn' }).onclick = () => {
-			this.current = moment();
+			this.current = dayjs();
 			this.render();
 		};
 		nav.createEl('button', { text: '›' }).onclick = () => {
-			this.current.add(1, 'month');
+			this.current = this.current.add(1, 'month');
 			this.render();
 		};
 
@@ -99,33 +101,33 @@ export class CalendarView extends ItemView {
 		const gridCls = ['jhc-days-grid'];
 		if (!this.plugin.settings.showKichijitsu) gridCls.push('compact');
 		const grid = root.createDiv({ cls: gridCls.join(' ') });
-		const today = moment();
+		const today = dayjs();
 		const start = this.plugin.settings.weekStart;
 
-		const firstDay = this.current.clone().startOf('month');
-		const lastDay = this.current.clone().endOf('month');
+		const firstDay = this.current.startOf('month');
+		const lastDay = this.current.endOf('month');
 
 		const offset = (firstDay.day() - start + 7) % 7;
 
 		for (let i = offset - 1; i >= 0; i--) {
-			const d = firstDay.clone().subtract(i + 1, 'day');
+			const d = firstDay.subtract(i + 1, 'day');
 			this.renderCell(grid, d.toDate(), true, today, tooltip);
 		}
 
-		for (const d = firstDay.clone(); d.isSameOrBefore(lastDay); d.add(1, 'day')) {
+		for (let d = firstDay; d.isSameOrBefore(lastDay); d = d.add(1, 'day')) {
 			this.renderCell(grid, d.toDate(), false, today, tooltip);
 		}
 
 		const totalCells = offset + lastDay.date();
 		const remaining = (7 - (totalCells % 7)) % 7;
 		for (let i = 1; i <= remaining; i++) {
-			const d = lastDay.clone().add(i, 'day');
+			const d = lastDay.add(i, 'day');
 			this.renderCell(grid, d.toDate(), true, today, tooltip);
 		}
 	}
 
-	private renderCell(grid: HTMLElement, date: Date, otherMonth: boolean, today: Moment, tooltip: HTMLElement) {
-		const m = moment(date);
+	private renderCell(grid: HTMLElement, date: Date, otherMonth: boolean, today: Dayjs, tooltip: HTMLElement) {
+		const m = dayjs(date);
 		const dow = date.getDay();
 		const holidayName = this.holidays.getHolidayName(date);
 		const isToday = m.isSame(today, 'day');
@@ -186,8 +188,6 @@ export class CalendarView extends ItemView {
 				for (const line of lines) {
 					tooltip.createDiv({ text: line });
 				}
-				tooltip.style.display = 'block';
-
 				const cellRect = cell.getBoundingClientRect();
 				const containerRect = (tooltip.parentElement as HTMLElement).getBoundingClientRect();
 				let left = cellRect.left - containerRect.left;
@@ -199,11 +199,14 @@ export class CalendarView extends ItemView {
 					left = containerRect.width - estimatedWidth - 4;
 				}
 
-				tooltip.style.left = `${left}px`;
-				tooltip.style.top = `${top}px`;
+				tooltip.setCssStyles({
+					display: 'block',
+					left: `${left}px`,
+					top: `${top}px`,
+				});
 			});
 			cell.addEventListener('mouseleave', () => {
-				tooltip.style.display = 'none';
+				tooltip.setCssStyles({ display: 'none' });
 			});
 		}
 	}

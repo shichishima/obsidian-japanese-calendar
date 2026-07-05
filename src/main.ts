@@ -1,8 +1,12 @@
 import { Plugin, TFile } from 'obsidian';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { CalendarView, VIEW_TYPE } from './CalendarView';
 import { DailyNoteManager } from './DailyNoteManager';
 import { HolidayManager } from './HolidayManager';
 import { JapaneseCalendarSettingTab } from './SettingTab';
+
+dayjs.extend(customParseFormat);
 
 export interface PluginSettings {
 	dailyNoteFolder: string;
@@ -104,7 +108,7 @@ export default class JapaneseCalendarPlugin extends Plugin {
 		const holidays = new HolidayManager();
 
 		const nameNoExt = file.basename;
-		const parsed = window.moment(nameNoExt, this.settings.dailyNoteFormat, true);
+		const parsed = dayjs(nameNoExt, this.settings.dailyNoteFormat, true);
 		if (!parsed.isValid()) return;
 
 		const holidayName = holidays.getHolidayName(parsed.toDate());

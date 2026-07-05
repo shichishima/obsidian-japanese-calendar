@@ -23,7 +23,7 @@ export class JapaneseCalendarSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('ファイル名フォーマット')
-			.setDesc('Moment.js フォーマット')
+			.setDesc('日付フォーマット（例: `YYYY-MM-DD`）')
 			.addText(t => t
 				.setValue(this.plugin.settings.dailyNoteFormat)
 				.onChange(async v => {

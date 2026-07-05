@@ -14,7 +14,7 @@ A calendar plugin for Obsidian with full support for Japanese public holidays, w
 - Automatic holiday callout insertion in daily notes
 - Color-coded weekends (Saturday/Sunday)
 - Previous and next month dates shown
-- Automatically follows Obsidian light/dark theme
+- **Light/dark mode toggle** — switch the calendar's appearance with the sun/moon icon, independent of Obsidian's own theme (your choice is remembered)
 
 ---
 
@@ -32,7 +32,7 @@ A calendar plugin for Obsidian with full support for Japanese public holidays, w
 - デイリーノートに祝日 callout を自動挿入
 - 土曜・日曜の色分け表示
 - 前月・翌月の日付も表示
-- Obsidian のライト / ダークテーマに自動追従
+- **ライト / ダークモード切り替え** — 太陽 / 月アイコンでカレンダーの表示をObsidian本体のテーマとは独立して切り替え可能（選択状態は保存されます）
 
 ## Installation
 

@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, moment } from 'obsidian';
+import { ItemView, WorkspaceLeaf, moment, setIcon } from 'obsidian';
 import { HolidayManager } from './HolidayManager';
 import { DailyNoteManager } from './DailyNoteManager';
 import { toWareki, getDayLabel } from './utils';
@@ -34,6 +34,9 @@ export class CalendarView extends ItemView {
 		const root = this.containerEl.children[1] as HTMLElement;
 		root.empty();
 		root.addClass('japan-holidays-calendar');
+		const isDark = this.plugin.settings.calendarTheme === 'dark';
+		root.toggleClass('jhc-theme-dark', isDark);
+		root.toggleClass('jhc-theme-light', !isDark);
 
 		this.renderHeader(root);
 		this.renderDowRow(root);
@@ -67,6 +70,17 @@ export class CalendarView extends ItemView {
 		nav.createEl('button', { text: '›' }).onclick = () => {
 			this.current.add(1, 'month');
 			this.render();
+		};
+
+		const isDark = this.plugin.settings.calendarTheme === 'dark';
+		const themeBtn = nav.createEl('button', {
+			cls: `jhc-theme-toggle ${isDark ? 'is-dark' : 'is-light'}`,
+			attr: { 'aria-label': isDark ? 'ライトモードに切り替え' : 'ダークモードに切り替え' },
+		});
+		setIcon(themeBtn, isDark ? 'moon' : 'sun');
+		themeBtn.onclick = async () => {
+			this.plugin.settings.calendarTheme = isDark ? 'light' : 'dark';
+			await this.plugin.saveSettings();
 		};
 	}
 

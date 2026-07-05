@@ -8,6 +8,41 @@
 .japan-holidays-calendar {
 	padding: 8px;
 	position: relative;
+	background: var(--jhc-bg-primary);
+	color: var(--jhc-text-normal);
+	border-radius: 6px;
+}
+
+.japan-holidays-calendar.jhc-theme-light {
+	--jhc-bg-primary: #ffffff;
+	--jhc-bg-hover: rgba(0, 0, 0, 0.04);
+	--jhc-border: #e3e3e3;
+	--jhc-text-normal: #2e3338;
+	--jhc-text-muted: #6e7075;
+	--jhc-text-faint: #a6a6a6;
+	--jhc-text-on-accent: #ffffff;
+	--jhc-accent: #7c3aed;
+	--jhc-red: #e93147;
+	--jhc-blue: #086ddd;
+	--jhc-green: #08b94e;
+	--jhc-yellow: #d4a017;
+	--jhc-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.japan-holidays-calendar.jhc-theme-dark {
+	--jhc-bg-primary: #1e1e1e;
+	--jhc-bg-hover: rgba(255, 255, 255, 0.06);
+	--jhc-border: #3a3a3a;
+	--jhc-text-normal: #dcddde;
+	--jhc-text-muted: #999999;
+	--jhc-text-faint: #666666;
+	--jhc-text-on-accent: #ffffff;
+	--jhc-accent: #a78bfa;
+	--jhc-red: #ff6b6b;
+	--jhc-blue: #4dabf7;
+	--jhc-green: #51cf66;
+	--jhc-yellow: #ffd43b;
+	--jhc-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .jhc-header {
@@ -25,12 +60,12 @@
 .jhc-month {
 	font-size: 14px;
 	font-weight: 600;
-	color: var(--text-normal);
+	color: var(--jhc-text-normal);
 }
 
 .jhc-wareki {
 	font-size: 11px;
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 	margin-bottom: 2px;
 }
 
@@ -42,17 +77,17 @@
 
 .jhc-nav button {
 	background: none;
-	border: 1px solid var(--background-modifier-border);
+	border: 1px solid var(--jhc-border);
 	border-radius: 4px;
 	cursor: pointer;
 	padding: 2px 8px;
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 	font-size: 13px;
 }
 
 .jhc-nav button:hover {
-	background: var(--background-modifier-hover);
-	color: var(--text-normal);
+	background: var(--jhc-bg-hover);
+	color: var(--jhc-text-normal);
 }
 
 .jhc-nav .jhc-today-btn {
@@ -60,22 +95,43 @@
 	padding: 2px 6px;
 }
 
+.jhc-nav .jhc-theme-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	margin-left: 8px;
+}
+
+.jhc-nav .jhc-theme-toggle svg {
+	width: 14px;
+	height: 14px;
+}
+
+.jhc-nav .jhc-theme-toggle.is-light svg {
+	color: var(--jhc-red);
+}
+
+.jhc-nav .jhc-theme-toggle.is-dark svg {
+	color: var(--jhc-yellow);
+}
+
 .jhc-dow-grid {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
-	border-bottom: 1px solid var(--background-modifier-border);
+	border-bottom: 1px solid var(--jhc-border);
 	margin-bottom: 2px;
 }
 
 .jhc-dow {
 	text-align: center;
 	font-size: 10px;
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 	padding: 4px 0;
 }
 
-.jhc-dow.sun { color: var(--color-red); }
-.jhc-dow.sat { color: var(--color-blue); }
+.jhc-dow.sun { color: var(--jhc-red); }
+.jhc-dow.sat { color: var(--jhc-blue); }
 
 .jhc-days-grid {
 	display: grid;
@@ -100,7 +156,7 @@
 }
 
 .jhc-day:hover {
-	background: var(--background-modifier-hover);
+	background: var(--jhc-bg-hover);
 }
 
 .jhc-day.other-month {
@@ -119,39 +175,39 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
-	color: var(--text-normal);
+	color: var(--jhc-text-normal);
 }
 
 .jhc-day.today .jhc-day-num {
-	background: var(--color-accent);
-	color: var(--text-on-accent);
+	background: var(--jhc-accent);
+	color: var(--jhc-text-on-accent);
 }
 
 .jhc-day.sunday .jhc-day-num,
 .jhc-day.holiday .jhc-day-num {
-	color: var(--color-red);
+	color: var(--jhc-red);
 }
 
 .jhc-day.today.sunday .jhc-day-num,
 .jhc-day.today.holiday .jhc-day-num {
-	color: var(--text-on-accent);
+	color: var(--jhc-text-on-accent);
 }
 
 .jhc-day.saturday .jhc-day-num {
-	color: var(--color-blue);
+	color: var(--jhc-blue);
 }
 
 .jhc-day.today.saturday .jhc-day-num {
-	color: var(--text-on-accent);
+	color: var(--jhc-text-on-accent);
 }
 
 .jhc-day.other-month .jhc-day-num {
-	color: var(--text-faint);
+	color: var(--jhc-text-faint);
 }
 
 .jhc-holiday-name {
 	font-size: 8px;
-	color: var(--color-red);
+	color: var(--jhc-red);
 	line-height: 1.1;
 	max-width: 100%;
 	overflow: hidden;
@@ -162,13 +218,13 @@
 
 .jhc-rokuyo {
 	font-size: 8px;
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 	line-height: 1.1;
 }
 
-.jhc-rokuyo-大安 { color: var(--color-green); }
-.jhc-rokuyo-仏滅 { color: var(--color-red); }
-.jhc-rokuyo-友引 { color: var(--color-blue); }
+.jhc-rokuyo-大安 { color: var(--jhc-green); }
+.jhc-rokuyo-仏滅 { color: var(--jhc-red); }
+.jhc-rokuyo-友引 { color: var(--jhc-blue); }
 
 .jhc-kichi {
 	font-size: 8px;
@@ -177,26 +233,26 @@
 }
 
 .jhc-kichi.kichi {
-	color: var(--color-yellow);
+	color: var(--jhc-yellow);
 }
 
 .jhc-kichi.kyo {
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 	opacity: 0.7;
 }
 
 .jhc-tooltip {
 	position: absolute;
-	background: var(--background-primary);
-	border: 1px solid var(--background-modifier-border);
+	background: var(--jhc-bg-primary);
+	border: 1px solid var(--jhc-border);
 	border-radius: 6px;
 	padding: 6px 10px;
 	font-size: 11px;
-	color: var(--text-normal);
+	color: var(--jhc-text-normal);
 	z-index: 100;
 	display: none;
 	pointer-events: none;
-	box-shadow: var(--shadow-s);
+	box-shadow: var(--jhc-shadow);
 	min-width: 80px;
 	white-space: nowrap;
 	line-height: 1.7;
@@ -206,7 +262,7 @@
 	width: 4px;
 	height: 4px;
 	border-radius: 50%;
-	background: var(--color-accent);
+	background: var(--jhc-accent);
 	margin-top: 2px;
 }
 
@@ -215,9 +271,9 @@
 	gap: 10px;
 	margin-top: 8px;
 	padding-top: 8px;
-	border-top: 1px solid var(--background-modifier-border);
+	border-top: 1px solid var(--jhc-border);
 	font-size: 10px;
-	color: var(--text-muted);
+	color: var(--jhc-text-muted);
 }
 
 .jhc-legend-item {
@@ -232,6 +288,6 @@
 	border-radius: 50%;
 }
 
-.jhc-legend-dot.accent { background: var(--color-accent); }
-.jhc-legend-dot.holiday { background: var(--color-red); }
-.jhc-legend-dot.saturday { background: var(--color-blue); }
+.jhc-legend-dot.accent { background: var(--jhc-accent); }
+.jhc-legend-dot.holiday { background: var(--jhc-red); }
+.jhc-legend-dot.saturday { background: var(--jhc-blue); }

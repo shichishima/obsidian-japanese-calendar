@@ -20,6 +20,7 @@ export interface PluginSettings {
 	enableAutoInsert: boolean;
 	insertFormat: string;
 	showStatusBar: boolean;
+	calendarTheme: 'light' | 'dark';
 }
 
 const DEFAULT_SETTINGS: PluginSettings = {
@@ -38,6 +39,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	enableAutoInsert: true,
 	insertFormat: '> [!note] 祝日\n> {name}',
 	showStatusBar: true,
+	calendarTheme: 'light',
 };
 
 export default class JapaneseCalendarPlugin extends Plugin {

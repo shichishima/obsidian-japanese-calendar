@@ -82,7 +82,9 @@ export class CalendarView extends ItemView {
 	}
 
 	private renderDays(root: HTMLElement, tooltip: HTMLElement) {
-		const grid = root.createDiv({ cls: 'jhc-days-grid' });
+		const gridCls = ['jhc-days-grid'];
+		if (!this.plugin.settings.showKichijitsu) gridCls.push('compact');
+		const grid = root.createDiv({ cls: gridCls.join(' ') });
 		const today = moment();
 		const start = this.plugin.settings.weekStart;
 

@@ -84,6 +84,10 @@
 	gap: 1px;
 }
 
+.jhc-days-grid.compact {
+	grid-auto-rows: 36px;
+}
+
 .jhc-day {
 	text-align: center;
 	padding: 2px 1px;
